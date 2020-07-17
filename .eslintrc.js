@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   env: {
     es6: true
   },
@@ -13,6 +14,7 @@ module.exports = {
     SharedArrayBuffer: 'readonly',
     __DEV__: 'readonly'
   },
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaFeatures: {
       jsx: true
@@ -22,7 +24,7 @@ module.exports = {
   },
   plugins: [
     'react',
-    'react-hook',
+    'react-hooks',
     'prettier'
   ],
   rules: {
@@ -36,7 +38,7 @@ module.exports = {
       'ignorePackages',
       {
         js: 'never',
-        jsx: 'neve'
+        jsx: 'never'
       }
     ]
   },
