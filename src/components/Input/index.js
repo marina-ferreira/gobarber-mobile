@@ -7,12 +7,21 @@ import { Container, TextInput, Icon } from './styles'
 const Input = ({ name, icon, ...rest }) => {
   const { registerField, defaultValue = '', fieldName, error } = useField(name)
   const inputValueRef = useRef({ value: defaultValue })
+  const inputElementRef = useRef(null)
 
   useEffect(() => {
     registerField({
       name: fieldName,
       ref: inputValueRef.current,
-      path: 'value'
+      path: 'value',
+      setValue(ref, value) {
+        inputValueRef.current.value = value
+        inputElementRef.current.setNativeProps({ text: value })
+      },
+      clearValue() {
+        inputValueRef.current.value = ''
+        inputElementRef.current.clear()
+      }
     })
   }, [fieldName, registerField])
 
@@ -21,6 +30,7 @@ const Input = ({ name, icon, ...rest }) => {
       <Icon name={icon} size={20} color="#666360" />
 
       <TextInput
+        ref={inputElementRef}
         placeholderTextColor="#666360"
         keyboardAppearance="dark"
         defaultValue={defaultValue}
