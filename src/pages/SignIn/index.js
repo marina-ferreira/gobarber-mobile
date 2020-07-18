@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useRef } from 'react'
 import {
   Image,
   View,
@@ -8,6 +8,7 @@ import {
 } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather'
 import { useNavigation } from '@react-navigation/native'
+import { Form } from '@unform/mobile'
 
 import Input from 'components/Input'
 import Button from 'components/Button'
@@ -24,6 +25,11 @@ import {
 
 const SignIn = () => {
   const navigation = useNavigation()
+  const formRef = useRef(null)
+
+  const handleSignIn = useCallback(data => {
+    console.log('submit', data)
+  }, [])
 
   return (
     <>
@@ -43,10 +49,18 @@ const SignIn = () => {
               <Title>Sign In</Title>
             </View>
 
-            <Input name="email" icon="mail" placeholder="Email" />
-            <Input name="password" icon="lock" placeholder="Password" />
+            <Form
+              ref={formRef}
+              onSubmit={handleSignIn}
+              style={{ width: '100%' }}
+            >
+              <Input name="email" icon="mail" placeholder="Email" />
+              <Input name="password" icon="lock" placeholder="Password" />
 
-            <Button>Sign In</Button>
+              <Button onPress={() => formRef.current?.submitForm()}>
+                Sign In
+              </Button>
+            </Form>
 
             <ForgotPassword>
               <ForgotPasswordText>Forgot password</ForgotPasswordText>

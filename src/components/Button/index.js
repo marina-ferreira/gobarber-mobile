@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 
 import { Container, ButtonText } from './styles'
 
-const Button = ({ children }) => {
+const Button = ({ children, ...rest }) => {
   return (
-    <Container>
+    <Container {...rest}>
       <ButtonText>{children}</ButtonText>
     </Container>
   )
