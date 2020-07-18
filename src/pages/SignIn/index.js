@@ -26,6 +26,7 @@ import {
 const SignIn = () => {
   const navigation = useNavigation()
   const formRef = useRef(null)
+  const passwordInputRef = useRef(null)
 
   const handleSignIn = useCallback(data => {
     console.log('submit', data)
@@ -54,8 +55,26 @@ const SignIn = () => {
               onSubmit={handleSignIn}
               style={{ width: '100%' }}
             >
-              <Input name="email" icon="mail" placeholder="Email" />
-              <Input name="password" icon="lock" placeholder="Password" />
+              <Input
+                name="email"
+                icon="mail"
+                placeholder="Email"
+                autoCorrect={false}
+                autoCapitalize="none"
+                keyboardType="email-address"
+                returnKeyType="next"
+                onSubmitEditing={() => passwordInputRef.current?.focus()}
+              />
+
+              <Input
+                ref={passwordInputRef}
+                name="password"
+                icon="lock"
+                placeholder="Password"
+                secureTextEntry
+                returnKeyType="send"
+                onSubmitEditing={() => formRef.current?.submitForm()}
+              />
 
               <Button onPress={() => formRef.current?.submitForm()}>
                 Sign In
