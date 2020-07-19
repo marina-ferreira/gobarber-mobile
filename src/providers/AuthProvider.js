@@ -8,6 +8,7 @@ import { AuthContext } from 'contexts'
 
 const AuthProvider = ({ children }) => {
   const [authData, setAuthData] = useState({})
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const loadStorageData = async () => {
@@ -16,7 +17,10 @@ const AuthProvider = ({ children }) => {
         '@GoBarber:token'
       ])
       user && token && setAuthData({ user: JSON.parse(user), token })
+
+      setLoading(false)
     }
+
     loadStorageData()
   }, [])
 
@@ -39,7 +43,9 @@ const AuthProvider = ({ children }) => {
   }, [])
 
   return (
-    <AuthContext.Provider value={{ user: authData.user, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ user: authData.user, signIn, signOut, loading }}
+    >
       {children}
     </AuthContext.Provider>
   )
