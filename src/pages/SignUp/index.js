@@ -13,6 +13,7 @@ import { Form } from '@unform/mobile'
 import * as Yup from 'yup'
 
 import getValidationErrors from 'utils/getValidationErrors'
+import api from 'services/api'
 
 import Input from 'components/Input'
 import Button from 'components/Button'
@@ -37,9 +38,11 @@ const SignUp = () => {
 
     try {
       await schema.validate(data, { abortEarly: false })
-      // await api.post('/users', data)
+      await api.post('/users', data)
 
-      // history.push('/')
+      Alert.alert('Sign in successful', 'You can sign in now')
+
+      navigation.navigate('SignIn')
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
         const errors = getValidationErrors(error)
@@ -49,7 +52,7 @@ const SignUp = () => {
 
       Alert.alert(
         'Authentication Error',
-        'Sign in failed. Invalid credentials.'
+        'Sign up failed. Invalid credentials.'
       )
     }
   }, [])
