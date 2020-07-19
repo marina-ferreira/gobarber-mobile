@@ -33,29 +33,32 @@ const SignUp = () => {
   const emailInputRef = useRef(null)
   const passwordInputRef = useRef(null)
 
-  const handleSignUp = useCallback(async data => {
-    formRef.current && formRef.current.setErrors({})
+  const handleSignUp = useCallback(
+    async data => {
+      formRef.current && formRef.current.setErrors({})
 
-    try {
-      await schema.validate(data, { abortEarly: false })
-      await api.post('/users', data)
+      try {
+        await schema.validate(data, { abortEarly: false })
+        await api.post('/users', data)
 
-      Alert.alert('Sign in successful', 'You can sign in now')
+        Alert.alert('Sign in successful', 'You can sign in now')
 
-      navigation.navigate('SignIn')
-    } catch (error) {
-      if (error instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(error)
-        formRef.current && formRef.current.setErrors(errors)
-        return
+        navigation.navigate('SignIn')
+      } catch (error) {
+        if (error instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(error)
+          formRef.current && formRef.current.setErrors(errors)
+          return
+        }
+
+        Alert.alert(
+          'Authentication Error',
+          'Sign up failed. Invalid credentials.'
+        )
       }
-
-      Alert.alert(
-        'Authentication Error',
-        'Sign up failed. Invalid credentials.'
-      )
-    }
-  }, [])
+    },
+    [navigation]
+  )
 
   return (
     <>
