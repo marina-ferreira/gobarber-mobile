@@ -13,6 +13,7 @@ import { Form } from '@unform/mobile'
 import * as Yup from 'yup'
 
 import getValidationErrors from 'utils/getValidationErrors'
+import { useAuth } from 'hooks'
 
 import Input from 'components/Input'
 import Button from 'components/Button'
@@ -36,30 +37,33 @@ const SignIn = () => {
   const navigation = useNavigation()
   const formRef = useRef(null)
   const passwordInputRef = useRef(null)
+  const { signIn } = useAuth()
 
-  const handleSignIn = useCallback(async data => {
-    formRef.current?.setErrors({})
+  const handleSignIn = useCallback(
+    async data => {
+      formRef.current?.setErrors({})
 
-    try {
-      await schema.validate(data, {
-        abortEarly: false
-      })
+      try {
+        await schema.validate(data, {
+          abortEarly: false
+        })
 
-      // await signIn(data)
-      // history.push('/dashboard')
-    } catch (error) {
-      if (error instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(error)
-        formRef.current && formRef.current.setErrors(errors)
-        return
+        await signIn(data)
+      } catch (error) {
+        if (error instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(error)
+          formRef.current && formRef.current.setErrors(errors)
+          return
+        }
+
+        Alert.alert(
+          'Authentication Error',
+          'Sign in failed. Invalid credentials.'
+        )
       }
-
-      Alert.alert(
-        'Authentication Error',
-        'Sign in failed. Invalid credentials.'
-      )
-    }
-  }, [])
+    },
+    [signIn]
+  )
 
   return (
     <>
