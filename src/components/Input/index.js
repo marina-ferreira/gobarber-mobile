@@ -1,6 +1,8 @@
 import React, {
+  useState,
   useEffect,
   useRef,
+  useCallback,
   useImperativeHandle,
   forwardRef
 } from 'react'
@@ -13,6 +15,17 @@ const Input = ({ name, icon, ...rest }, ref) => {
   const { registerField, defaultValue = '', fieldName, error } = useField(name)
   const inputValueRef = useRef({ value: defaultValue })
   const inputElementRef = useRef(null)
+  const [isFocused, setIsFocused] = useState(false)
+  const [isFilled, setIsFilled] = useState(false)
+
+  const handleInputFocus = useCallback(() => {
+    setIsFocused(true)
+  }, [])
+
+  const handleInputBlur = useCallback(() => {
+    setIsFocused(false)
+    setIsFilled(!!inputValueRef.current.value)
+  }, [])
 
   useImperativeHandle(ref, () => ({
     focus() {
@@ -37,14 +50,20 @@ const Input = ({ name, icon, ...rest }, ref) => {
   }, [fieldName, registerField])
 
   return (
-    <Container>
-      <Icon name={icon} size={20} color="#666360" />
+    <Container isFocused={isFocused}>
+      <Icon
+        name={icon}
+        size={20}
+        color={isFocused || isFilled ? '#ff9000' : '#666360'}
+      />
 
       <TextInput
         ref={inputElementRef}
         placeholderTextColor="#666360"
         keyboardAppearance="dark"
         defaultValue={defaultValue}
+        onFocus={handleInputFocus}
+        onBlur={handleInputBlur}
         onChangeText={value => {
           inputValueRef.current.value = value
         }}
