@@ -19,6 +19,8 @@ import { Container, Title, BackToSignIn, BackToSignInText } from './styles'
 const SignUp = () => {
   const navigation = useNavigation()
   const formRef = useRef(null)
+  const emailInputRef = useRef(null)
+  const passwordInputRef = useRef(null)
 
   const handleSignUp = useCallback(data => {
     console.log(data)
@@ -47,9 +49,37 @@ const SignUp = () => {
               onSubmit={handleSignUp}
               style={{ width: '100%' }}
             >
-              <Input name="name" icon="user" placeholder="Name" />
-              <Input name="email" icon="mail" placeholder="Email" />
-              <Input name="password" icon="lock" placeholder="Password" />
+              <Input
+                name="name"
+                icon="user"
+                placeholder="Name"
+                autoCapitalize="words"
+                returnKeyType="next"
+                onSubmitEditing={() => emailInputRef.current?.focus()}
+              />
+
+              <Input
+                ref={emailInputRef}
+                name="email"
+                icon="mail"
+                placeholder="Email"
+                keyboardType="email-address"
+                autoCorrect={false}
+                autoCapitalize="none"
+                returnKeyType="next"
+                onSubmitEditing={() => passwordInputRef.current?.focus()}
+              />
+
+              <Input
+                ref={passwordInputRef}
+                name="password"
+                icon="lock"
+                placeholder="Password"
+                textContentType="none"
+                returnKeyType="send"
+                onSubmitEditing={() => formRef.current?.submitForm()}
+                secureTextEntry
+              />
 
               <Button onPress={() => formRef.current?.submitForm()}>
                 Sign Up
