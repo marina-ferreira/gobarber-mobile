@@ -50,7 +50,7 @@ const Input = ({ name, icon, ...rest }, ref) => {
   }, [fieldName, registerField])
 
   return (
-    <Container isFocused={isFocused}>
+    <Container isFocused={isFocused} isErrored={!!error}>
       <Icon
         name={icon}
         size={20}

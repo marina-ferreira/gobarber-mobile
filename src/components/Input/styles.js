@@ -12,6 +12,12 @@ export const Container = styled.View`
   align-items: center;
   border: 2px solid #232129;
 
+  ${({ isErrored }) =>
+    isErrored &&
+    css`
+      border-color: #c53030;
+    `}
+
   ${({ isFocused }) =>
     isFocused &&
     css`
