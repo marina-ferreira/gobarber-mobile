@@ -16,7 +16,11 @@ const AuthProvider = ({ children }) => {
         '@GoBarber:user',
         '@GoBarber:token'
       ])
-      user && token && setAuthData({ user: JSON.parse(user), token })
+
+      if (user && token) {
+        api.defaults.headers.authorization = `Bearer ${token}`
+        setAuthData({ user: JSON.parse(user), token })
+      }
 
       setLoading(false)
     }
@@ -32,6 +36,8 @@ const AuthProvider = ({ children }) => {
       ['@GoBarber:token', token],
       ['@GoBarber:user', JSON.stringify(user)]
     ])
+
+    api.defaults.headers.authorization = `Bearer ${token}`
 
     setAuthData({ token, user })
   }, [])
