@@ -26,6 +26,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'react/jsx-props-no-spreading': 'off',
     'no-unused-expressions': 'off',
+    'camelcase': 'off',
     'import/extensions': [
       'error',
       'ignorePackages',
