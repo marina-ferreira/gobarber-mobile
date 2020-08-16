@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { Button } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/Feather'
 
@@ -24,7 +23,7 @@ import {
 } from './styles'
 
 const Dashboard = () => {
-  const { user, signOut } = useAuth()
+  const { user } = useAuth()
   const { navigate } = useNavigation()
 
   const [providers, setProviders] = useState([])
@@ -87,8 +86,6 @@ const Dashboard = () => {
           </ProviderContainer>
         )}
       />
-
-      <Button title="Sair" onPress={signOut} />
     </Container>
   )
 }
