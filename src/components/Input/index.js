@@ -11,7 +11,7 @@ import { useField } from '@unform/core'
 
 import { Container, TextInput, Icon } from './styles'
 
-const Input = ({ name, icon, ...rest }, ref) => {
+const Input = ({ name, icon, containerStyle, ...rest }, ref) => {
   const { registerField, defaultValue = '', fieldName, error } = useField(name)
   const inputValueRef = useRef({ value: defaultValue })
   const inputElementRef = useRef(null)
@@ -50,7 +50,7 @@ const Input = ({ name, icon, ...rest }, ref) => {
   }, [fieldName, registerField])
 
   return (
-    <Container isFocused={isFocused} isErrored={!!error}>
+    <Container isFocused={isFocused} isErrored={!!error} style={containerStyle}>
       <Icon
         name={icon}
         size={20}
@@ -77,5 +77,10 @@ export default forwardRef(Input)
 
 Input.propTypes = {
   name: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired
+  icon: PropTypes.string.isRequired,
+  containerStyle: PropTypes.string
+}
+
+Input.defaultProps = {
+  containerStyle: {}
 }
