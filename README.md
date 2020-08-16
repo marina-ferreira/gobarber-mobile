@@ -28,12 +28,13 @@
 <br />
 
 <p align="center">
-  <img alt="GoBaber Mobile Sign Up" height="350px" src="./.github/sign-up.jpg" />
-  <img alt="GoBaber Mobile Sign In" height="350px" src="./.github/sign-in.jpg" />
-  <img alt="GoBaber Mobile Profile" height="350px" src="./.github/profile.jpg" />
-  <img alt="GoBaber Mobile Dashboard" height="350px" src="./.github/dashboard.jpg" />
-  <img alt="GoBaber Mobile Create Appointment" height="350px" src="./.github/create-appointment.jpg" />
-  <img alt="GoBaber Mobile Appointment Created" height="350px" src="./.github/appointment-create-success.jpg" />
+  <img alt="GoBaber Mobile Sign Up" height="300px" src="./.github/sign-up.jpg" />
+  <img alt="GoBaber Mobile Sign In" height="300px" src="./.github/sign-in.jpg" />
+  <img alt="GoBaber Mobile Profile" height="300px" src="./.github/profile.jpg" />
+  <br />
+  <img alt="GoBaber Mobile Dashboard" height="300px" src="./.github/dashboard.jpg" />
+  <img alt="GoBaber Mobile Create Appointment" height="300px" src="./.github/create-appointment.jpg" />
+  <img alt="GoBaber Mobile Appointment Created" height="300px" src="./.github/appointment-create-success.jpg" />
 </p>
 <br />
 
