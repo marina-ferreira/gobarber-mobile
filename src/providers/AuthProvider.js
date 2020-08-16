@@ -48,9 +48,18 @@ const AuthProvider = ({ children }) => {
     setAuthData({})
   }, [])
 
+  const updateUser = useCallback(
+    async user => {
+      await AsyncStorage.setItem('@GoBarber:user', JSON.stringify(user))
+
+      setAuthData({ token: authData.token, user })
+    },
+    [authData.token]
+  )
+
   return (
     <AuthContext.Provider
-      value={{ user: authData.user, signIn, signOut, loading }}
+      value={{ user: authData.user, signIn, signOut, loading, updateUser }}
     >
       {children}
     </AuthContext.Provider>

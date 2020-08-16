@@ -29,29 +29,59 @@ import {
 const schema = Yup.object().shape({
   name: Yup.string().required(),
   email: Yup.string().required().email(),
-  password: Yup.string().min(6)
+  old_password: Yup.string(),
+  password: Yup.string().when('old_password', {
+    is: val => !!val.length,
+    then: Yup.string().required(),
+    otherwise: Yup.string()
+  }),
+  password_confirmation: Yup.string()
+    .when('old_password', {
+      is: val => !!val.length,
+      then: Yup.string().required(),
+      otherwise: Yup.string()
+    })
+    .oneOf([Yup.ref('password'), null], 'Passwords must match')
 })
 
 const Profile = () => {
-  const { user } = useAuth()
-  const { navigate, goBack } = useNavigation()
+  const { user, updateUser } = useAuth()
+  const { goBack } = useNavigation()
   const formRef = useRef(null)
   const emailInputRef = useRef(null)
   const oldPasswordInputRef = useRef(null)
   const passwordInputRef = useRef(null)
   const confirmPasswordInputRef = useRef(null)
 
-  const handleSignUp = useCallback(
+  const handleProfileUpdate = useCallback(
     async data => {
       formRef.current && formRef.current.setErrors({})
 
       try {
         await schema.validate(data, { abortEarly: false })
-        await api.post('/users', data)
 
-        Alert.alert('Sign in successful', 'You can sign in now')
+        const {
+          name,
+          email,
+          old_password,
+          password,
+          password_confirmation
+        } = data
 
-        navigate('SignIn')
+        const formData = {
+          name,
+          email,
+          ...(old_password
+            ? { old_password, password, password_confirmation }
+            : {})
+        }
+
+        const response = await api.put('/profiles', formData)
+        updateUser(response.data)
+
+        Alert.alert('Profile updated successfully')
+
+        goBack()
       } catch (error) {
         if (error instanceof Yup.ValidationError) {
           const errors = getValidationErrors(error)
@@ -59,13 +89,10 @@ const Profile = () => {
           return
         }
 
-        Alert.alert(
-          'Authentication Error',
-          'Sign up failed. Invalid credentials.'
-        )
+        Alert.alert('Profile update error', 'Profile update failed. Try again.')
       }
     },
-    [navigate]
+    [goBack, updateUser]
   )
 
   const navigateBack = useCallback(() => {
@@ -98,7 +125,8 @@ const Profile = () => {
 
             <Form
               ref={formRef}
-              onSubmit={handleSignUp}
+              initialData={user}
+              onSubmit={handleProfileUpdate}
               style={{ width: '100%' }}
             >
               <Input
