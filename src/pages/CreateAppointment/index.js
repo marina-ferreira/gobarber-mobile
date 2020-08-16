@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
-import { Platform } from 'react-native'
+import { Platform, Alert } from 'react-native'
 import { useRoute, useNavigation } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/Feather'
 import DateTimePicker from '@react-native-community/datetimepicker'
@@ -29,12 +29,14 @@ import {
   SectionTitle,
   SectionContent,
   Hour,
-  HourText
+  HourText,
+  CreateAppointmentButton,
+  CreateAppointmentButtonTitle
 } from './styles'
 
 const CreateAppointment = () => {
   const { user } = useAuth()
-  const { goBack } = useNavigation()
+  const { goBack, navigate } = useNavigation()
   const route = useRoute()
   const { providerId } = route.params
   const [showDatePicker, setShowDatePicker] = useState(false)
@@ -85,6 +87,27 @@ const CreateAppointment = () => {
   const handleSelectHour = useCallback(hour => {
     setSelectedHour(hour)
   }, [])
+
+  const handleCreateAppointment = useCallback(async () => {
+    try {
+      const date = new Date(selectedDate)
+
+      date.setHours(selectedHour)
+      date.setMinutes(0)
+
+      await api.post('/appointments', {
+        provider_id: selectedProvider,
+        date
+      })
+
+      navigate('AppointmentCreated', { date: date.getTime() })
+    } catch (error) {
+      Alert.alert(
+        'Appointment schedule failed',
+        'There was an error on appointment schedule. Try again.'
+      )
+    }
+  }, [selectedDate, selectedHour, selectedProvider, navigate])
 
   const morningAvailability = useMemo(() => {
     return availability
@@ -203,6 +226,10 @@ const CreateAppointment = () => {
             </SectionContent>
           </Section>
         </Schedule>
+
+        <CreateAppointmentButton onPress={handleCreateAppointment}>
+          <CreateAppointmentButtonTitle>Schedule</CreateAppointmentButtonTitle>
+        </CreateAppointmentButton>
       </Content>
     </Container>
   )

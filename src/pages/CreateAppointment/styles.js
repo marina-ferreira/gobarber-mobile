@@ -102,3 +102,16 @@ export const HourText = styled.Text`
   font-size: 16px;
   color: ${({ selected }) => (selected ? '#232129' : '#f4ede8')};
 `
+export const CreateAppointmentButton = styled(RectButton)`
+  height: 50px;
+  margin: 0 24px 24px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: #ff9000;
+`
+export const CreateAppointmentButtonTitle = styled.Text`
+  font-family: 'RobotoSlab-Medium';
+  font-size: 18px;
+  color: #232129;
+`
