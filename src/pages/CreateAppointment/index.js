@@ -31,6 +31,7 @@ const CreateAppointment = () => {
   const { providerId } = route.params
   const [showDatePicker, setShowDatePicker] = useState(false)
   const [selectedDate, setSelectedDate] = useState(new Date())
+  const [availability, setAvailability] = useState([])
   const [providers, setProviders] = useState([])
   const [selectedProvider, setSelectedProvider] = useState(providerId)
 
@@ -40,6 +41,19 @@ const CreateAppointment = () => {
       .then(({ data }) => setProviders(data))
       .catch(error => console.log(error)) /* eslint-disable-line */
   }, [])
+
+  useEffect(() => {
+    const params = {
+      year: selectedDate.getFullYear(),
+      month: selectedDate.getMonth(),
+      day: selectedDate.getDate()
+    }
+
+    api
+      .get(`/providers/${selectedProvider}/day-availability`, { params })
+      .then(({ data }) => setAvailability(data))
+      .catch(error => console.log(error)) /* eslint-disable-line */
+  }, [selectedDate, selectedProvider])
 
   const navigateBack = useCallback(() => {
     goBack()
