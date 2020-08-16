@@ -17,7 +17,7 @@ export const BackButton = styled.TouchableOpacity``
 export const HeaderTitle = styled.Text`
   font-family: 'RobotoSlab-Medium';
   font-size: 20px;
-  color: #f5ede8;
+  color: #f4ede8;
   margin-left: 16px;
 `
 export const UserAvatar = styled.Image`
@@ -49,5 +49,25 @@ export const ProviderName = styled.Text`
   margin-left: 8px;
   font-family: 'RobotoSlab-Medium';
   font-size: 16px;
-  color: ${({ selected }) => (selected ? '#232129' : '#f5ede8')};
+  color: ${({ selected }) => (selected ? '#232129' : '#f4ede8')};
+`
+export const Calendar = styled.View``
+export const CalendarTitle = styled.Text`
+  margin: 0 24px 24px;
+  font-family: 'RobotoSlab-Medium';
+  font-size: 24px;
+  color: #f4ede8;
+`
+export const OpenDatePickerButton = styled(RectButton)`
+  height: 44px;
+  margin: 0 24px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: #ff9000;
+`
+export const OpenDatePickerButtonText = styled.Text`
+  font-family: 'RobotoSlab-Medium';
+  font-size: 16px;
+  color: #232129;
 `
