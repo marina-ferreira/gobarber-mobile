@@ -10,6 +10,7 @@ import Icon from 'react-native-vector-icons/Feather'
 import { useNavigation } from '@react-navigation/native'
 import { Form } from '@unform/mobile'
 import * as Yup from 'yup'
+import ImagePicker from 'react-native-image-picker'
 
 import getValidationErrors from 'utils/getValidationErrors'
 import api from 'services/api'
@@ -95,9 +96,34 @@ const Profile = () => {
     [goBack, updateUser]
   )
 
-  const navigateBack = useCallback(() => {
+  const handleGoBack = useCallback(() => {
     goBack()
   }, [goBack])
+
+  const handleUpdateAvatar = useCallback(() => {
+    ImagePicker.showImagePicker({}, response => {
+      const { didCancel, error, uri } = response
+
+      if (didCancel) return
+      if (error) {
+        Alert.alert(`Avatar update error: ${error}`)
+        return
+      }
+
+      const data = new FormData()
+
+      data.append('avatar', {
+        type: 'image/jpg',
+        name: `${user.id}.jpg`,
+        uri
+      })
+
+      api
+        .patch('/users/avatar', data)
+        .then(payload => updateUser(payload.data))
+        .catch(error => console.log(error)) /* eslint-disable-line */
+    })
+  }, [user.id, updateUser])
 
   return (
     <>
@@ -111,11 +137,11 @@ const Profile = () => {
           keyboardShouldPersistTaps="handled"
         >
           <Container>
-            <BackButton onPress={navigateBack}>
+            <BackButton onPress={handleGoBack}>
               <Icon name="chevron-left" size={24} color="#999591" />
             </BackButton>
 
-            <UserAvatarButton>
+            <UserAvatarButton onPress={handleUpdateAvatar}>
               <UserAvatar source={{ uri: user.avatar_url }} />
             </UserAvatarButton>
 

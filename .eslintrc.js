@@ -1,7 +1,8 @@
 module.exports = {
   root: true,
   env: {
-    es6: true
+    es6: true,
+    browser: true
   },
   extends: ['plugin:react/recommended', 'airbnb', 'prettier', 'prettier/react'],
   globals: {
