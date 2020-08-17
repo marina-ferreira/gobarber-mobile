@@ -10,6 +10,8 @@
 
   <img alt="React Version" src="https://img.shields.io/badge/dynamic/json?color=01daff&url=https://raw.githubusercontent.com/marina-ferreira/gobarber-mobile/master/package.json&query=$.dependencies['react']&label=react&logo=react&style=for-the-badge">
 
+  <img alt="React Native Version" src="https://img.shields.io/badge/dynamic/json?color=5666f8&url=https://raw.githubusercontent.com/marina-ferreira/go-restaurant-mobile/master/package.json&query=$.dependencies['react-native']&label=react-native&logo=react&style=for-the-badge">
+
   <br />
 
   <img alt="React Navigation Version" src="https://img.shields.io/badge/dynamic/json?color=ca4245&url=https://raw.githubusercontent.com/marina-ferreira/gobarber-mobile/master/package.json&query=$.dependencies['@react-navigation/native']&label=react-navigation&logo=react-router&style=for-the-badge">
